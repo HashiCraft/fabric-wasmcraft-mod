@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "wasmtime:block/picture_block", "uvlock": false },
+    "facing=east":  { "model": "wasmtime:block/picture_block", "y":  90, "uvlock": false },
+    "facing=south": { "model": "wasmtime:block/picture_block", "y": 180, "uvlock": false },
+    "facing=west":  { "model": "wasmtime:block/picture_block", "y": 270, "uvlock": false }
+  }
+}

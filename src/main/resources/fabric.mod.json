@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "wasmcraft",
   "version": "${version}",
 
-  "name": "Example Mod",
+  "name": "Fabric mod allowing integration of Wasm into Minecraft.",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
     "Me!"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/nicholasjackson",
+    "sources": "https://github.com/nicholasjackson/fabric-wasmcraft-mod"
   },
 
   "license": "CC0-1.0",
@@ -19,7 +19,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "com.github.nicholasjackson.wasmcraft.WasmcraftMod"
+    ],
+    "client": [
+      "com.github.nicholasjackson.wasmcraft.WasmcraftModClient"
     ]
   },
   "mixins": [
@@ -31,8 +34,5 @@
     "fabric": "*",
     "minecraft": "1.17.x",
     "java": ">=16"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }

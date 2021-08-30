@@ -1,0 +1,11 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "block/repeater",
+    "up": "block/repeater",
+    "east": "block/repeater",
+    "west": "block/repeater",
+    "north": "block/repeater",
+    "south": "block/repeater"
+  }
+}
