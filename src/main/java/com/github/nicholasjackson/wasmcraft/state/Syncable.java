@@ -9,4 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface Syncable {
   public String key() default "";
+
+  public String property() default "";
+
+  public Class type() default Object.class;
 }

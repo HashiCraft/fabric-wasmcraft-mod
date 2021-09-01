@@ -1,7 +1,10 @@
 package com.github.nicholasjackson.wasmcraft.blocks;
 
+import java.util.ArrayList;
+
 import com.github.nicholasjackson.wasmcraft.events.WasmBlockClicked;
 import com.github.nicholasjackson.wasmcraft.state.StatefulBlock;
+import com.github.nicholasjackson.wasmcraft.wasm.WasmModule;
 import com.github.nicholasjackson.wasmcraft.wasm.WasmRuntime;
 
 import net.minecraft.block.Block;
@@ -11,6 +14,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.LiteralText;
@@ -24,10 +28,11 @@ import net.minecraft.world.World;
 
 public class WasmBlock extends StatefulBlock {
   public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
+  public static final BooleanProperty POWERED = Properties.POWERED;
 
   public WasmBlock(Settings settings) {
     super(settings);
-    setDefaultState(getStateManager().getDefaultState());
+    setDefaultState(getStateManager().getDefaultState().with(POWERED, false));
   }
 
   @Override
@@ -55,13 +60,28 @@ public class WasmBlock extends StatefulBlock {
 
     try {
       WasmRuntime runtime = WasmRuntime.getInstance();
-      String moduleHash = runtime.getModule(blockEntity.module);
-      Object fnResult = runtime.executeModuleFunction(moduleHash, blockEntity.function, blockEntity.parameter1,
-          blockEntity.parameter2);
+      ArrayList<String> modules = new ArrayList<String>();
+
+      for (int n = 0; n < blockEntity.modules.size(); n++) {
+        modules.add(runtime.getModule(blockEntity.modules.get(n), blockEntity.names.get(n)));
+      }
+
+      Class returnType;
+      // determine the type of the comparison
+      try {
+        Integer.parseInt(blockEntity.result);
+        returnType = Integer.class;
+      } catch (NumberFormatException ex) {
+        returnType = String.class;
+      }
+
+      Object fnResult = runtime.executeModuleFunction(returnType, modules.toArray(new String[modules.size()]),
+          blockEntity.function, blockEntity.parameter1, blockEntity.parameter2);
 
       // enable / disable redstone power
       boolean result = compareResult(fnResult, blockEntity.result);
       blockEntity.redstonePower = (result) ? 16 : 0;
+      blockEntity.powered = result;
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -70,7 +90,7 @@ public class WasmBlock extends StatefulBlock {
   }
 
   private void showError(PlayerEntity player, String error) {
-    player.sendMessage(new LiteralText(error), false);
+    player.sendMessage(new LiteralText("Error: " + error), false);
   }
 
   // compareResult compares the result of the function to the expected result
@@ -80,7 +100,7 @@ public class WasmBlock extends StatefulBlock {
       return fnResult.equals(compareVal);
     }
 
-    return false;
+    return ((String) fnResult).equals(expectedResult);
   }
 
   @Override
@@ -114,6 +134,7 @@ public class WasmBlock extends StatefulBlock {
   @Override
   protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
     stateManager.add(FACING);
+    stateManager.add(POWERED);
   }
 
   @Override

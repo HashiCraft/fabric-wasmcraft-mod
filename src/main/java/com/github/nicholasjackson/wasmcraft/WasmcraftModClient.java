@@ -6,7 +6,9 @@ import com.github.nicholasjackson.wasmcraft.gui.WasmBlockScreen;
 import com.github.nicholasjackson.wasmcraft.wasm.WasmRuntime;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.ActionResult;
 
 public class WasmcraftModClient implements ClientModInitializer {
@@ -24,6 +26,8 @@ public class WasmcraftModClient implements ClientModInitializer {
 
       return ActionResult.PASS;
     });
+
+    BlockRenderLayerMap.INSTANCE.putBlock(WasmcraftMod.WASM_BLOCK, RenderLayer.getTranslucent());
 
     WasmRuntime.getInstance().init();
   }
