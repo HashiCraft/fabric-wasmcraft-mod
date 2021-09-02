@@ -3,6 +3,7 @@ package main
 import "C"
 import (
 	"fmt"
+	"io/ioutil"
 	"wasm/go/abi"
 )
 
@@ -29,15 +30,28 @@ func hello(in abi.WasmString) abi.WasmString {
 	return abi.String(ret)
 }
 
-//go:wasm-module rust
-//export sum
-func sum(a, b int) int
+////go:wasm-module rust
+////export sum
+//func sum(a, b int) int
 
 //go:export sum_mod
 func sum_mod(a, b int) int {
-	fmt.Printf("External: %s", sum(a, b))
+	fmt.Printf("Sum")
 
-	return sum(a, b)
+	return a * b
+}
+
+//go:export write_file
+func write_file() int {
+	fmt.Printf("Write file")
+
+	err := ioutil.WriteFile("/test.txt", []byte("Hello"), 0644)
+	if err != nil {
+		fmt.Println(err)
+		return 1
+	}
+
+	return 0
 }
 
 //

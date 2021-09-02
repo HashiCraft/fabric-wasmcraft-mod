@@ -45,7 +45,8 @@ public class WasmRuntime {
   }
 
   public void init() {
-    WasiCtx wasi = new WasiCtxBuilder().inheritStdout().inheritStderr().preopenedDir(Path.of("./"), ".").build();
+    WasiCtx wasi = new WasiCtxBuilder().inheritStdout().inheritStderr()
+        .preopenedDir(Path.of("C:\\Users\\jacks\\java\\fabric-wasm-mod\\wasm"), "/").build();
 
     store = Store.withoutData(wasi);
     engine = store.engine();
@@ -110,6 +111,9 @@ public class WasmRuntime {
       params.add(param);
     }
 
+    // first call initialize
+    callInit(linker);
+
     Integer result = 0;
 
     // get an instance of the function from the module
@@ -142,6 +146,12 @@ public class WasmRuntime {
     linker.close();
 
     return returnVal;
+  }
+
+  private void callInit(Linker linker) {
+    Func f = linker.get(store, "", "_initialize").get().func();
+    WasmFunctions.Consumer0 fn = WasmFunctions.consumer(store, f);
+    fn.accept();
   }
 
   private String computeHashForFile(String uri, String name) {
