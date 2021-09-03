@@ -12,6 +12,11 @@ import (
 )
 
 func main() {
+	//in := abi.String("conference.png")
+	//out := abi.String("encrypted.png")
+	//key := abi.String("mykey")
+
+	//encrypt(key, in, out)
 }
 
 ////go:export sum
@@ -20,10 +25,6 @@ func main() {
 //
 //	return a + b
 //}
-
-// int open(const char *pathname, int flags, mode_t mode);
-//export open
-func libc_open(pathname *byte, flags int, mode uint32) int
 
 //go:export hello
 func hello(in abi.WasmString) abi.WasmString {
@@ -63,12 +64,13 @@ func write_file() int {
 
 //go:export encrypt
 func encrypt(key, infile, outfile abi.WasmString) int {
-	fmt.Printf("Encrypt file: %s with key: %s to file: %s\n", infile.String(), key.String(), outfile.String())
+	fmt.Printf("Encrypt file: with key: %s\n", key.String())
+	//fmt.Printf("Encrypt file: %s with key: %s to file: %s\n", infile.String(), key.String(), outfile.String())
 
 	// create a 16 byte key from the key string
 	// if less than 16 chars pad
 	// if more trim
-	keyBytes := []byte(fmt.Sprintf("%16s", key.String()))[:16]
+	keyBytes := []byte(fmt.Sprintf("%16s", "myfile"))[:16]
 
 	data, err := ioutil.ReadFile(infile.String())
 	if err != nil {

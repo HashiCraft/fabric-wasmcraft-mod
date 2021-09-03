@@ -1,5 +1,7 @@
 package com.github.nicholasjackson.wasmcraft;
 
+import java.nio.file.Paths;
+
 import com.github.nicholasjackson.wasmcraft.events.WasmBlockClicked;
 import com.github.nicholasjackson.wasmcraft.gui.WasmBlockGui;
 import com.github.nicholasjackson.wasmcraft.gui.WasmBlockScreen;
@@ -29,6 +31,6 @@ public class WasmcraftModClient implements ClientModInitializer {
 
     BlockRenderLayerMap.INSTANCE.putBlock(WasmcraftMod.WASM_BLOCK, RenderLayer.getTranslucent());
 
-    WasmRuntime.getInstance().init();
+    WasmRuntime.getInstance().init(Paths.get("."));
   }
 }

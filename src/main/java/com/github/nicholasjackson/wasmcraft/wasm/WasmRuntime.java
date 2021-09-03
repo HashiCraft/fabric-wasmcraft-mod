@@ -44,9 +44,8 @@ public class WasmRuntime {
     return instance;
   }
 
-  public void init() {
-    WasiCtx wasi = new WasiCtxBuilder().inheritStdout().inheritStderr()
-        .preopenedDir(Path.of("C:\\Users\\jacks\\java\\fabric-wasm-mod\\wasm"), "/").build();
+  public void init(Path root) {
+    WasiCtx wasi = new WasiCtxBuilder().inheritStdout().inheritStderr().preopenedDir(root, "/").build();
 
     store = Store.withoutData(wasi);
     engine = store.engine();
@@ -76,15 +75,32 @@ public class WasmRuntime {
     return hash;
   }
 
+  private Func getModuleStringFunc(String module, Linker linker) {
+    return WasmFunctions.wrap(store, I32, I32, I32, (addr, mod) -> {
+      String string = getStringFromMemory(addr, module, linker);
+      String name = getStringFromMemory(mod, module, linker);
+
+      return setStringInMemory(string, name, linker);
+    });
+  }
+
   public <T> T executeModuleFunction(Class<T> returnType, String[] moduleHashes, String functionName, String... args)
       throws Exception {
 
     Linker linker = new Linker(engine);
     WasiCtx.addToLinker(linker);
 
+    // memory is not shared across wasm modules so if we need to write to another
+    // modules memory
+    // such as when we need to call a function with a string, a module needs to call
+    // a host function to
+    // perform this operation.
+    linker.define("env", "set_string_for_module", Extern.fromFunc(getModuleStringFunc("", linker)));
+
     // add the modules to the instance
     for (String hash : moduleHashes) {
       WasmModule module = modules.get(hash);
+
       linker.module(store, module.name, module.module);
     }
 
@@ -104,7 +120,7 @@ public class WasmRuntime {
       } catch (Exception e) {
         // not an integer so create the string in the wasm modules memory and pass a
         // reference to that string as an integer
-        param = setStringInMemory(arg, linker);
+        param = setStringInMemory(arg, "", linker);
       }
 
       // add to the collection
@@ -112,7 +128,7 @@ public class WasmRuntime {
     }
 
     // first call initialize
-    callInit(linker);
+    // callInit(linker);
 
     Integer result = -1;
 
@@ -142,7 +158,7 @@ public class WasmRuntime {
     T returnVal;
     // if the output type is a string, attempt to read this from the modules memory
     if (returnType == String.class) {
-      returnVal = (T) getStringFromMemory(result, linker);
+      returnVal = (T) getStringFromMemory(result, "", linker);
     } else {
       returnVal = (T) result;
     }
@@ -174,14 +190,14 @@ public class WasmRuntime {
     }
   }
 
-  private Integer setStringInMemory(String string, Linker linker) {
+  private Integer setStringInMemory(String string, String module, Linker linker) {
     // allocate the memory
-    Func f = linker.get(store, "", "allocate").get().func();
+    Func f = linker.get(store, module, "allocate").get().func();
 
     WasmFunctions.Function1<Integer, Integer> fn = WasmFunctions.func(store, f, I32, I32);
     Integer result = fn.call(string.length() + 1);
 
-    Optional<Extern> ext = linker.get(store, "", "memory");
+    Optional<Extern> ext = linker.get(store, module, "memory");
     Memory mem = ext.get().memory();
 
     ByteBuffer buf = mem.buffer(store);
@@ -196,9 +212,9 @@ public class WasmRuntime {
     return result;
   }
 
-  private String getStringFromMemory(Integer ptr, Linker linker) {
+  private String getStringFromMemory(Integer ptr, String module, Linker linker) {
 
-    Optional<Extern> ext = linker.get(store, "", "memory");
+    Optional<Extern> ext = linker.get(store, module, "memory");
     Memory mem = ext.get().memory();
 
     ByteBuffer buf = mem.buffer(store);
