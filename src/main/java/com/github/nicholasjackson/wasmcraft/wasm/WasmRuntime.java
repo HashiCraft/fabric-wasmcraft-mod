@@ -104,6 +104,10 @@ public class WasmRuntime {
       linker.module(store, module.name, module.module);
     }
 
+    Optional<Extern> ext = linker.get(store, "", "memory");
+    Memory mem = ext.get().memory();
+    mem.grow(store, 20);
+
     // create a list of parameters, it is possible that this list will be empty
     ArrayList<Integer> params = new ArrayList<Integer>();
 
