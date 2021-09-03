@@ -38,4 +38,39 @@ class WasmRuntimeTests {
 
     assertEquals(8, result);
   }
+
+  @Test
+  void writesFiles() throws Exception {
+    Object result = null;
+
+    String moduleHash1 = instance.getModule("C:\\Users\\jacks\\java\\fabric-wasm-mod\\wasm\\go.wat", "");
+
+    result = instance.executeModuleFunction(Integer.class, new String[] { moduleHash1 }, "write_file");
+
+    assertEquals(0, result);
+  }
+
+  @Test
+  void encryptFile() throws Exception {
+    Object result = null;
+
+    String moduleHash1 = instance.getModule("C:\\Users\\jacks\\java\\fabric-wasm-mod\\wasm\\go.wat", "");
+
+    result = instance.executeModuleFunction(Integer.class, new String[] { moduleHash1 }, "encrypt", "mykey",
+        "/conference.png", "/encrypted.png");
+
+    assertEquals(0, result);
+  }
+
+  @Test
+  void decryptFile() throws Exception {
+    Object result = null;
+
+    String moduleHash1 = instance.getModule("C:\\Users\\jacks\\java\\fabric-wasm-mod\\wasm\\go.wat", "");
+
+    result = instance.executeModuleFunction(Integer.class, new String[] { moduleHash1 }, "decrypt", "mykey",
+        "/encrypted.png", "/decrypted.png");
+
+    assertEquals(0, result);
+  }
 }

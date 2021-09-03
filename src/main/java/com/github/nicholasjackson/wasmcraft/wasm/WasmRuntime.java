@@ -114,7 +114,7 @@ public class WasmRuntime {
     // first call initialize
     callInit(linker);
 
-    Integer result = 0;
+    Integer result = -1;
 
     // get an instance of the function from the module
     Func f = linker.get(store, "", functionName).get().func();
@@ -131,6 +131,11 @@ public class WasmRuntime {
       case 2:
         WasmFunctions.Function2<Integer, Integer, Integer> fn2 = WasmFunctions.func(store, f, I32, I32, I32);
         result = fn2.call(params.get(0), params.get(1));
+        break;
+      case 3:
+        WasmFunctions.Function3<Integer, Integer, Integer, Integer> fn3 = WasmFunctions.func(store, f, I32, I32, I32,
+            I32);
+        result = fn3.call(params.get(0), params.get(1), params.get(2));
         break;
     }
 
@@ -149,7 +154,12 @@ public class WasmRuntime {
   }
 
   private void callInit(Linker linker) {
-    Func f = linker.get(store, "", "_initialize").get().func();
+    Extern extern = linker.get(store, "", "_initialize").get();
+    if (extern == null) {
+      return;
+    }
+
+    Func f = extern.func();
     WasmFunctions.Consumer0 fn = WasmFunctions.consumer(store, f);
     fn.accept();
   }
