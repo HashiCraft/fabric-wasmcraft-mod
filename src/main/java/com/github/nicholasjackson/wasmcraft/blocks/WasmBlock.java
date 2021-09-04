@@ -76,7 +76,7 @@ public class WasmBlock extends StatefulBlock {
       }
 
       Object fnResult = runtime.executeModuleFunction(returnType, modules.toArray(new String[modules.size()]),
-          blockEntity.function, blockEntity.parameter1, blockEntity.parameter2);
+          blockEntity.function, blockEntity.parameters.toArray(new String[0]));
 
       // enable / disable redstone power
       boolean result = compareResult(fnResult, blockEntity.result);

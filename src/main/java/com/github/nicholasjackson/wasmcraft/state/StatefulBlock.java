@@ -19,7 +19,12 @@ public class StatefulBlock extends BlockWithEntity {
   public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state,
       BlockEntityType<T> type) {
 
-    return checkType(type, StatefulBlockEntity::tick);
+    // only tick on the client
+    if (world.isClient()) {
+      return checkType(type, StatefulBlockEntity::tick);
+    }
+
+    return null;
   }
 
   private <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> checkType(BlockEntityType<A> givenType,

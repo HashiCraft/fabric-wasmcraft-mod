@@ -67,7 +67,12 @@ public class WasmRuntime {
     }
 
     // module has not been loaded, load it
-    Module module = Module.fromFile(engine, uri);
+    Module module;
+    try {
+      module = Module.fromFile(engine, uri);
+    } catch (Exception ex) {
+      throw new Exception("Unable to load module '" + uri + "'");
+    }
 
     // cache the module
     modules.put(hash, new WasmModule(module, name));
@@ -133,7 +138,12 @@ public class WasmRuntime {
     Integer result = -1;
 
     // get an instance of the function from the module
-    Func f = linker.get(store, "", functionName).get().func();
+    Optional<Extern> ext = linker.get(store, "", functionName);
+    if (ext.isEmpty()) {
+      throw new Exception("Function '" + functionName + "' not found in module");
+    }
+
+    Func f = ext.get().func();
 
     switch (params.size()) {
       case 0:

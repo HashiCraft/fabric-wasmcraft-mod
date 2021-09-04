@@ -22,10 +22,7 @@ public class WasmBlockEntity extends StatefulBlockEntity {
   public String function;
 
   @Syncable
-  public String parameter1;
-
-  @Syncable
-  public String parameter2;
+  public ArrayList<String> parameters;
 
   @Syncable
   public String result;
