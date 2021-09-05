@@ -1,5 +1,6 @@
 package com.github.nicholasjackson.wasmcraft;
 
+import java.io.File;
 import java.nio.file.Paths;
 
 import com.github.nicholasjackson.wasmcraft.events.WasmBlockClicked;
@@ -31,6 +32,12 @@ public class WasmcraftModClient implements ClientModInitializer {
 
     BlockRenderLayerMap.INSTANCE.putBlock(WasmcraftMod.WASM_BLOCK, RenderLayer.getTranslucent());
 
-    WasmRuntime.getInstance().init(Paths.get("."));
+    // create the wasm module filesystem directory if it does not exist
+    File wasmPath = new File("./wasm_files");
+    if (!wasmPath.exists()) {
+      wasmPath.mkdirs();
+    }
+
+    WasmRuntime.getInstance().init(Paths.get("./wasm_files"));
   }
 }

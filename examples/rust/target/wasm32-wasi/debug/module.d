@@ -1,0 +1,1 @@
+/mnt/c/Users/jacks/java/fabric-wasm-mod/examples/rust/target/wasm32-wasi/debug/module.wasm: /mnt/c/Users/jacks/java/fabric-wasm-mod/examples/rust/src/abi.rs /mnt/c/Users/jacks/java/fabric-wasm-mod/examples/rust/src/lib.rs

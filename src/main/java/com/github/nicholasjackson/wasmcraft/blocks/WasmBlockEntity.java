@@ -3,8 +3,8 @@ package com.github.nicholasjackson.wasmcraft.blocks;
 import java.util.ArrayList;
 
 import com.github.nicholasjackson.wasmcraft.WasmcraftMod;
-import com.github.nicholasjackson.wasmcraft.state.StatefulBlockEntity;
-import com.github.nicholasjackson.wasmcraft.state.Syncable;
+import com.github.hashicraft.stateful.blocks.StatefulBlockEntity;
+import com.github.hashicraft.stateful.blocks.Syncable;
 
 import net.minecraft.state.property.BooleanProperty;
 

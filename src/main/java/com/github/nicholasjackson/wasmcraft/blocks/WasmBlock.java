@@ -2,14 +2,16 @@ package com.github.nicholasjackson.wasmcraft.blocks;
 
 import java.util.ArrayList;
 
+import com.github.hashicraft.stateful.blocks.StatefulBlock;
 import com.github.nicholasjackson.wasmcraft.events.WasmBlockClicked;
-import com.github.nicholasjackson.wasmcraft.state.StatefulBlock;
-import com.github.nicholasjackson.wasmcraft.wasm.WasmModule;
 import com.github.nicholasjackson.wasmcraft.wasm.WasmRuntime;
+
+import com.github.hashicraft.stateful.blocks.StatefulBlock;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -47,7 +49,7 @@ public class WasmBlock extends StatefulBlock {
       WasmBlockClicked.EVENT.invoker().interact(blockEntity, () -> {
         executeWasmFunction(state, world, pos, player, blockEntity);
 
-        // ensure that the state is synced
+        // ensure that the state is synced with the server
         blockEntity.markForUpdate();
       });
     }

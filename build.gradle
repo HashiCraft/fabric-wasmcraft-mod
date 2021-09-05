@@ -21,6 +21,8 @@ repositories {
     name = "CottonMC"
     url = "https://server.bbkr.space/artifactory/libs-release"
   }
+
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -35,6 +37,8 @@ dependencies {
   modImplementation include("io.github.cottonmc:LibGui:${project.libgui_version}")
 
   implementation include("io.github.kawamuray.wasmtime:wasmtime-java:${wasmtime_version}")
+
+	modImplementation include("com.github.hashicraft:fabric-stateful-mod:${stateful_version}")
 
   testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
@@ -95,9 +99,9 @@ publishing {
 	}
 }
 
-test {
-	useJUnitPlatform()
-	testLogging {
-		events "passed", "skipped", "failed"
-	}
-}
+//test {
+//	useJUnitPlatform()
+//	testLogging {
+//		events "passed", "skipped", "failed"
+//	}
+//}

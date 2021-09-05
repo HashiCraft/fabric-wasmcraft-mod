@@ -2,7 +2,8 @@ package com.github.nicholasjackson.wasmcraft;
 
 import com.github.nicholasjackson.wasmcraft.blocks.WasmBlock;
 import com.github.nicholasjackson.wasmcraft.blocks.WasmBlockEntity;
-import com.github.nicholasjackson.wasmcraft.state.EntityServerState;
+
+import com.github.hashicraft.stateful.blocks.EntityServerState;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;

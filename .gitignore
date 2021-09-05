@@ -33,3 +33,7 @@ bin/
 run/
 
 wasm/rust/target
+crash-reports/
+logs/
+remappedSrc/
+.mixin.out/
