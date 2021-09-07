@@ -106,7 +106,6 @@ public class WasmBlockGui extends LightweightGuiDescription {
 
     plus.setOnClick(() -> {
       moduleCount++;
-      setValues();
       drawPanel();
       populateValues();
     });
@@ -117,7 +116,6 @@ public class WasmBlockGui extends LightweightGuiDescription {
 
       minus.setOnClick(() -> {
         moduleCount--;
-        setValues();
         drawPanel();
         populateValues();
       });
@@ -151,7 +149,6 @@ public class WasmBlockGui extends LightweightGuiDescription {
 
     parameterPlus.setOnClick(() -> {
       parameterCount++;
-      setValues();
       drawPanel();
       populateValues();
     });
@@ -162,7 +159,6 @@ public class WasmBlockGui extends LightweightGuiDescription {
 
       parameterMinus.setOnClick(() -> {
         parameterCount--;
-        setValues();
         drawPanel();
         populateValues();
       });
