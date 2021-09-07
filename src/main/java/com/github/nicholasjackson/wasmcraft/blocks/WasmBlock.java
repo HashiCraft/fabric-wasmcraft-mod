@@ -6,12 +6,9 @@ import com.github.hashicraft.stateful.blocks.StatefulBlock;
 import com.github.nicholasjackson.wasmcraft.events.WasmBlockClicked;
 import com.github.nicholasjackson.wasmcraft.wasm.WasmRuntime;
 
-import com.github.hashicraft.stateful.blocks.StatefulBlock;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;

@@ -14,25 +14,6 @@ import (
 func main() {
 }
 
-// Strings are not supported by WASM as they are considered complex types
-// however the memory of a WASM module can be read by WASM runtime so we can
-// pass strings to and from modules using pointers to a null terminated string
-// that exists in the modules memory.
-//
-// WasmString is a convenience type that allows us to convert between a Go string
-// and pointer to a null terminated string in the modules memory.
-
-//go:export hello
-func hello(in abi.WasmString) abi.WasmString {
-	// get the string from the memory pointer
-	s := in.String()
-	ret := fmt.Sprintf("Hello %s", s)
-
-	fmt.Println(ret)
-
-	return abi.String(ret)
-}
-
 // This example shows how to use the Wasi library to write a file from a Wasm module
 // Wasm is sandboxed and only directories that the host runtime explictly allows are
 // available to the module.

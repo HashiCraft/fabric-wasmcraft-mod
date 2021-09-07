@@ -3,7 +3,6 @@ package main
 import "C"
 import (
 	"fmt"
-	"wasm/go/abi"
 )
 
 // This module has been compiled as a Wasm reactor or library.
