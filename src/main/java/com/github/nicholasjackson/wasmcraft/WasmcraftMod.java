@@ -1,5 +1,6 @@
 package com.github.nicholasjackson.wasmcraft;
 
+import com.github.hashicraft.stateful.blocks.EntityServerState;
 import com.github.nicholasjackson.wasmcraft.blocks.WasmBlock;
 import com.github.nicholasjackson.wasmcraft.blocks.WasmBlockEntity;
 
@@ -24,7 +25,7 @@ public class WasmcraftMod implements ModInitializer {
   @Override
   public void onInitialize() {
     // This code runs as soon as Minecraft is in a mod-load-ready state.
-    System.out.println("Wasmcraft v1.0.0 loading.");
+    System.out.println("Wasmcraft v1.1.0 loading...");
 
     WASM_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE,
         new Identifier("wasmcraft", "wasm_block_entity"),
@@ -36,5 +37,7 @@ public class WasmcraftMod implements ModInitializer {
     ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(content -> {
       content.add(WASM_ITEM);
     });
+
+    EntityServerState.RegisterStateUpdates();
   }
 }

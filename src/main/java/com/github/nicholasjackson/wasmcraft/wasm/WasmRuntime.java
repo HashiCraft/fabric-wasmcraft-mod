@@ -97,9 +97,9 @@ public class WasmRuntime {
 
     // memory is not shared across wasm modules so if we need to write to another
     // modules memory
+    //
     // such as when we need to call a function with a string, a module needs to call
-    // a host function to
-    // perform this operation.
+    // a host function to perform this operation.
     linker.define("env", "set_string_for_module", Extern.fromFunc(getModuleStringFunc("", linker)));
 
     // add the modules to the instance
