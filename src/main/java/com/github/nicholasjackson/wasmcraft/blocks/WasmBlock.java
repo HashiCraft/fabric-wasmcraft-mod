@@ -16,7 +16,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -89,7 +89,7 @@ public class WasmBlock extends StatefulBlock {
   }
 
   private void showError(PlayerEntity player, String error) {
-    player.sendMessage(new LiteralText("Error: " + error), false);
+    player.sendMessage(Text.literal("Error: " + error), false);
   }
 
   // compareResult compares the result of the function to the expected result
@@ -138,7 +138,7 @@ public class WasmBlock extends StatefulBlock {
 
   @Override
   public BlockState getPlacementState(ItemPlacementContext ctx) {
-    return getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+    return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
   }
 
   @Override

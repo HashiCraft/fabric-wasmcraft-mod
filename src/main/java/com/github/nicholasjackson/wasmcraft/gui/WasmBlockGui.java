@@ -13,7 +13,7 @@ import io.github.cottonmc.cotton.gui.widget.WScrollPanel;
 import io.github.cottonmc.cotton.gui.widget.WTextField;
 import io.github.cottonmc.cotton.gui.widget.data.HorizontalAlignment;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 public class WasmBlockGui extends LightweightGuiDescription {
   private WasmBlockEntity currentEntity;
@@ -25,7 +25,7 @@ public class WasmBlockGui extends LightweightGuiDescription {
 
   WGridPanel root = new WGridPanel();
   WScrollPanel scroll;
-  WLabel label = new WLabel(new LiteralText("§lConfigure Wasm Module"));
+  WLabel label = new WLabel(Text.literal("§lConfigure Wasm Module"));
 
   ArrayList<WTextField> moduleLocFields = new ArrayList<WTextField>();
   ArrayList<WTextField> moduleNameFields = new ArrayList<WTextField>();
@@ -50,13 +50,13 @@ public class WasmBlockGui extends LightweightGuiDescription {
     for (int n = 0; n < moduleCount; n++) {
       WTextField wtf;
 
-      wtf = new WTextField(new LiteralText("module location (c:\\module.wat)"));
+      wtf = new WTextField(Text.literal("module location (c:\\module.wat)"));
       panel.add(wtf, 0, rowNumber, 19, 2);
       wtf.setMaxLength(255);
 
       moduleLocFields.add(wtf);
 
-      wtf = new WTextField(new LiteralText("module name (leave blank if main)"));
+      wtf = new WTextField(Text.literal("module name (leave blank if main)"));
       panel.add(wtf, 0, rowNumber + 2, 10, 2);
       wtf.setMaxLength(255);
 
@@ -70,13 +70,13 @@ public class WasmBlockGui extends LightweightGuiDescription {
     parameterFields.clear();
 
     for (int n = 0; n < parameterCount; n++) {
-      WLabel label = new WLabel(new LiteralText("§3parameter " + (n + 1) + ":"));
+      WLabel label = new WLabel(Text.literal("§3parameter " + (n + 1) + ":"));
       label.setHorizontalAlignment(HorizontalAlignment.RIGHT);
       panel.add(label, 0, rowNumber, 6, 2);
 
       WTextField wtf;
 
-      wtf = new WTextField(new LiteralText("e.g. 3 or nic"));
+      wtf = new WTextField(Text.literal("e.g. 3 or nic"));
       panel.add(wtf, 7, rowNumber, 12, 2);
       wtf.setMaxLength(255);
 
@@ -98,10 +98,10 @@ public class WasmBlockGui extends LightweightGuiDescription {
     scroll = new WScrollPanel(panel);
     root.add(scroll, 0, 1, 20, 10);
 
-    WLabel label = new WLabel(new LiteralText("modules to load:"));
+    WLabel label = new WLabel(Text.literal("modules to load:"));
     panel.add(label, 0, 0, 10, 2);
 
-    WButton plus = new WButton(new LiteralText("+"));
+    WButton plus = new WButton(Text.literal("+"));
     panel.add(plus, 7, 0, 1, 2);
 
     plus.setOnClick(() -> {
@@ -111,7 +111,7 @@ public class WasmBlockGui extends LightweightGuiDescription {
     });
 
     if (moduleCount > 1) {
-      WButton minus = new WButton(new LiteralText("-"));
+      WButton minus = new WButton(Text.literal("-"));
       panel.add(minus, 9, 0, 1, 2);
 
       minus.setOnClick(() -> {
@@ -129,22 +129,22 @@ public class WasmBlockGui extends LightweightGuiDescription {
 
     //
     // add the function name dialog
-    WLabel function = new WLabel(new LiteralText("function to execute:"));
+    WLabel function = new WLabel(Text.literal("function to execute:"));
     panel.add(function, 0, rowNumber, 4, 1);
 
     rowNumber = rowNumber + 1;
 
-    functionField = new WTextField(new LiteralText("e.g. sum"));
+    functionField = new WTextField(Text.literal("e.g. sum"));
     panel.add(functionField, 0, rowNumber, 9, 2);
 
     rowNumber = rowNumber + 2;
 
     //
     // add the parameters
-    WLabel input = new WLabel(new LiteralText("input parameters:"));
+    WLabel input = new WLabel(Text.literal("input parameters:"));
     panel.add(input, 0, rowNumber, 6, 1);
 
-    WButton parameterPlus = new WButton(new LiteralText("+"));
+    WButton parameterPlus = new WButton(Text.literal("+"));
     panel.add(parameterPlus, 7, rowNumber, 1, 2);
 
     parameterPlus.setOnClick(() -> {
@@ -154,7 +154,7 @@ public class WasmBlockGui extends LightweightGuiDescription {
     });
 
     if (parameterCount > 1) {
-      WButton parameterMinus = new WButton(new LiteralText("-"));
+      WButton parameterMinus = new WButton(Text.literal("-"));
       panel.add(parameterMinus, 9, rowNumber, 1, 2);
 
       parameterMinus.setOnClick(() -> {
@@ -170,19 +170,19 @@ public class WasmBlockGui extends LightweightGuiDescription {
 
     ////
     //// add the result
-    WLabel result = new WLabel(new LiteralText("expected result:"));
+    WLabel result = new WLabel(Text.literal("expected result:"));
     panel.add(result, 0, rowNumber, 6, 1);
 
     rowNumber = rowNumber + 1;
 
-    resultField = new WTextField(new LiteralText("e.g. 8"));
+    resultField = new WTextField(Text.literal("e.g. 8"));
     panel.add(resultField, 0, rowNumber, 6, 2);
 
     rowNumber = rowNumber + 2;
 
     ////
     //// add the run button
-    WButton button = new WButton(new LiteralText("Run"));
+    WButton button = new WButton(Text.literal("Run"));
     button.setOnClick(() -> {
       System.out.println("Execute clicked");
       setValues();
